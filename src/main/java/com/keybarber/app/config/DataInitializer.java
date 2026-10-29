@@ -89,11 +89,13 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void inicializarAdmin() {
-        if (!usuarioRepository.existsByEmailIgnoreCase(adminUsername)) {
+        boolean hayAlgunAdmin = usuarioRepository.findAll().stream()
+                .anyMatch(u -> "ROLE_ADMIN".equals(u.getRol()));
+        if (!hayAlgunAdmin) {
             Usuario admin = new Usuario(
                     adminUsername,
                     passwordEncoder.encode(adminPassword),
-                    "Administrador Key Barber",
+                    "Administrador",
                     "ROLE_ADMIN"
             );
             usuarioRepository.save(admin);

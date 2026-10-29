@@ -2105,7 +2105,7 @@ async function cargarUsuariosAdmin() {
   const tbody = document.getElementById('tablaUsuariosAdminBody');
   if (!tbody) return;
 
-  tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando administradores...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Consultando administradores...</td></tr>';
 
   try {
     const res = await fetchAuth('/api/admin/usuarios');
@@ -2117,11 +2117,13 @@ async function cargarUsuariosAdmin() {
     usuariosAdminCargados = usuarios || [];
 
     if (usuariosAdminCargados.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">No hay administradores adicionales registrados.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">No hay administradores registrados.</td></tr>';
       return;
     }
 
     const currentEmail = (usuarioActual ? usuarioActual.email : '').toLowerCase();
+    const totalAdmins = usuariosAdminCargados.filter(u => u.rol === 'ROLE_ADMIN').length;
+    const totalActivos = usuariosAdminCargados.filter(u => u.rol === 'ROLE_ADMIN' && u.activo).length;
 
     tbody.innerHTML = usuariosAdminCargados.map(u => {
       const esPropio = u.email.toLowerCase() === currentEmail;
@@ -2133,6 +2135,25 @@ async function cargarUsuariosAdmin() {
         ? '<span class="badge badge-PENDIENTE" style="background: rgba(185, 143, 74, 0.15); color: var(--gold); font-weight: 800;">ADMINISTRADOR</span>'
         : `<span class="badge badge-outline">${u.rol.replace('ROLE_', '')}</span>`;
 
+      const safeEmail = (u.email || '').replace(/'/g, "\\'");
+      const safeNombre = (u.nombre || '').replace(/'/g, "\\'");
+
+      // Botón Desactivar / Activar
+      let botonEstado = '';
+      if (u.activo && totalActivos <= 1) {
+        botonEstado = `<button class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem; opacity: 0.45; cursor: not-allowed;" title="No se puede desactivar el único administrador activo" disabled><i class="fa-solid fa-power-off text-muted"></i></button>`;
+      } else {
+        botonEstado = `<button onclick="toggleEstadoUsuarioAdmin('${u.id}', '${safeEmail}', ${u.activo})" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="${u.activo ? 'Desactivar cuenta' : 'Activar cuenta'}"><i class="fa-solid fa-power-off ${u.activo ? 'text-warning' : 'text-success'}"></i></button>`;
+      }
+
+      // Botón Eliminar: regla estricta: si solo hay 1 admin en el sistema, no se puede eliminar
+      let botonEliminar = '';
+      if (totalAdmins <= 1) {
+        botonEliminar = `<span class="badge" style="background: rgba(185, 143, 74, 0.12); color: var(--gold); font-size: 0.72rem; padding: 0.3rem 0.55rem; font-weight: 700; border: 1px solid rgba(185, 143, 74, 0.3);" title="Como mínimo debe existir un administrador en el sistema"><i class="fa-solid fa-shield mr-1"></i>Único Admin</span>`;
+      } else {
+        botonEliminar = `<button onclick="eliminarUsuarioAdmin('${u.id}', '${safeEmail}')" class="btn btn-danger" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Eliminar administrador"><i class="fa-solid fa-trash-can"></i></button>`;
+      }
+
       return `
         <tr>
           <td>
@@ -2143,17 +2164,14 @@ async function cargarUsuariosAdmin() {
           <td>${rolBadge}</td>
           <td>${estadoBadge}</td>
           <td style="text-align: right; white-space: nowrap;">
-            <button onclick="abrirModalCambiarPasswordAdmin('${u.id}', '${u.email}')" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="Cambiar Contraseña">
+            <button onclick="abrirModalEditarAdmin('${u.id}', '${safeEmail}', '${safeNombre}')" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="Editar usuario y nombre">
+              <i class="fa-solid fa-pen-to-square mr-1 text-gold"></i> Editar
+            </button>
+            <button onclick="abrirModalCambiarPasswordAdmin('${u.id}', '${safeEmail}')" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="Cambiar Contraseña">
               <i class="fa-solid fa-key mr-1 text-gold"></i> Contraseña
             </button>
-            ${!esPropio ? `
-              <button onclick="toggleEstadoUsuarioAdmin('${u.id}', '${u.email}', ${u.activo})" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="${u.activo ? 'Desactivar' : 'Activar'}">
-                <i class="fa-solid fa-power-off ${u.activo ? 'text-warning' : 'text-success'}"></i>
-              </button>
-              <button onclick="eliminarUsuarioAdmin('${u.id}', '${u.email}')" class="btn btn-danger" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Eliminar Administrador">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            ` : ''}
+            ${botonEstado}
+            ${botonEliminar}
           </td>
         </tr>
       `;
@@ -2161,6 +2179,70 @@ async function cargarUsuariosAdmin() {
 
   } catch (e) {
     tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 2rem;">${e.message}</td></tr>`;
+  }
+}
+
+function abrirModalEditarAdmin(id, email, nombre) {
+  document.getElementById('modalAdminTitulo').innerHTML = `<i class="fa-solid fa-pen-to-square text-gold mr-1"></i> Editar Administrador`;
+  const body = document.getElementById('modalAdminBody');
+
+  body.innerHTML = `
+    <form onsubmit="guardarEdicionAdmin(event, '${id}', '${email}')">
+      <div class="form-group">
+        <label>Usuario / Correo Electrónico *</label>
+        <input type="email" id="editAdminEmail" class="form-control" value="${email}" required autocomplete="off">
+        <small style="color: var(--text-muted); font-size: 0.75rem;">Este correo se usará para iniciar sesión en el panel de administración.</small>
+      </div>
+      <div class="form-group" style="margin-top: 1rem;">
+        <label>Nombre Completo</label>
+        <input type="text" id="editAdminNombre" class="form-control" value="${nombre || ''}" placeholder="ej: Administrador Principal">
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" onclick="cerrarModalAdmin()" class="btn btn-outline">Cancelar</button>
+        <button type="submit" class="btn btn-gold" style="font-weight: 800; padding: 0.65rem 1.25rem;">
+          <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Cambios
+        </button>
+      </div>
+    </form>
+  `;
+  document.getElementById('modalAdmin').classList.add('active');
+}
+
+async function guardarEdicionAdmin(e, id, emailOriginal) {
+  e.preventDefault();
+  const nuevoEmail = document.getElementById('editAdminEmail')?.value.trim();
+  const nuevoNombre = document.getElementById('editAdminNombre')?.value.trim();
+
+  if (!nuevoEmail) {
+    alert('El usuario o email es obligatorio.');
+    return;
+  }
+
+  try {
+    const res = await fetchAuth(`/api/admin/usuarios/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ email: nuevoEmail, nombre: nuevoNombre })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al actualizar el administrador');
+    }
+
+    cerrarModalAdmin();
+    alert('Datos del administrador actualizados con éxito.');
+
+    if (usuarioActual && usuarioActual.email.toLowerCase() === emailOriginal.toLowerCase()) {
+      usuarioActual.email = nuevoEmail;
+      usuarioActual.nombre = nuevoNombre || nuevoEmail;
+      const userNameEl = document.getElementById('userName');
+      if (userNameEl) userNameEl.textContent = nuevoEmail;
+    }
+
+    cargarUsuariosAdmin();
+  } catch (err) {
+    alert(err.message);
   }
 }
 
@@ -2307,7 +2389,14 @@ async function toggleEstadoUsuarioAdmin(id, email, estadoActual) {
 }
 
 async function eliminarUsuarioAdmin(id, email) {
-  if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente la cuenta de administrador "${email}"?`)) return;
+  const currentEmail = (usuarioActual ? usuarioActual.email : '').toLowerCase();
+  const esPropio = email.toLowerCase() === currentEmail;
+
+  const mensajeConfirmacion = esPropio
+    ? `⚠️ ATENCIÓN: Estás a punto de ELIMINAR TU PROPIA CUENTA (${email}).\nComo existen otros administradores, tu cuenta se borrará pero tu sesión se cerrará de inmediato.\n\n¿Estás seguro de continuar?`
+    : `¿Estás seguro de que deseas ELIMINAR permanentemente la cuenta de administrador "${email}"?`;
+
+  if (!confirm(mensajeConfirmacion)) return;
 
   try {
     const res = await fetchAuth(`/api/admin/usuarios/${id}`, { method: 'DELETE' });
@@ -2315,6 +2404,13 @@ async function eliminarUsuarioAdmin(id, email) {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.message || 'Error al eliminar');
     }
+
+    if (esPropio) {
+      alert(`Tu cuenta "${email}" ha sido eliminada con éxito. Cerrando sesión...`);
+      cerrarSesion();
+      return;
+    }
+
     alert(`Usuario "${email}" eliminado.`);
     cargarUsuariosAdmin();
   } catch (e) {

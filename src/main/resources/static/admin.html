@@ -26,11 +26,11 @@
       <form id="formLogin" onsubmit="iniciarSesion(event)">
         <div class="form-group">
           <label>Usuario / Email</label>
-          <input type="email" id="loginEmail" class="form-control" value="admin@keybarber.com" required>
+          <input type="email" id="loginEmail" class="form-control" placeholder="ej: usuario@keybarber.com" required autocomplete="username">
         </div>
         <div class="form-group">
           <label>Contraseña</label>
-          <input type="password" id="loginPassword" class="form-control" value="Admin123456!" required>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.9rem; margin-top: 0.5rem; font-size: 0.95rem;">
           <i class="fa-solid fa-right-to-bracket mr-1"></i> Ingresar al Panel

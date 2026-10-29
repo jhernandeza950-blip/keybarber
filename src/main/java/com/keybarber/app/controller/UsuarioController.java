@@ -86,6 +86,41 @@ public class UsuarioController {
         return ResponseEntity.ok(res);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarUsuario(
+            @PathVariable String id,
+            @RequestBody Map<String, String> payload) {
+        
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
+
+        String email = payload.get("email");
+        String nombre = payload.get("nombre");
+
+        if (email != null && !email.trim().isEmpty()) {
+            email = email.trim().toLowerCase();
+            if (!email.equalsIgnoreCase(usuario.getEmail()) && usuarioRepository.existsByEmailIgnoreCase(email)) {
+                throw new BadRequestException("Ya existe otro usuario registrado con el email: " + email);
+            }
+            usuario.setEmail(email);
+        }
+
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            usuario.setNombre(nombre.trim());
+        }
+
+        Usuario guardado = usuarioRepository.save(usuario);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("id", guardado.getId());
+        res.put("email", guardado.getEmail());
+        res.put("nombre", guardado.getNombre());
+        res.put("rol", guardado.getRol());
+        res.put("activo", guardado.isActivo());
+        res.put("fechaCreacion", guardado.getFechaCreacion());
+        return ResponseEntity.ok(res);
+    }
+
     @PutMapping("/{id}/password")
     public ResponseEntity<Void> cambiarPassword(@PathVariable String id, @RequestBody Map<String, String> payload) {
         String nuevaPassword = payload.get("password");
@@ -106,8 +141,13 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
-        if (currentUser != null && usuario.getEmail().equalsIgnoreCase(currentUser.getUsername())) {
-            throw new BadRequestException("No puedes desactivar tu propio usuario en sesión activa.");
+        if (usuario.isActivo() && "ROLE_ADMIN".equals(usuario.getRol())) {
+            long activeAdminCount = usuarioRepository.findAll().stream()
+                    .filter(u -> "ROLE_ADMIN".equals(u.getRol()) && u.isActivo())
+                    .count();
+            if (activeAdminCount <= 1) {
+                throw new BadRequestException("No se puede desactivar el único administrador activo del sistema.");
+            }
         }
 
         usuario.setActivo(!usuario.isActivo());
@@ -120,16 +160,16 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
-        if (currentUser != null && usuario.getEmail().equalsIgnoreCase(currentUser.getUsername())) {
-            throw new BadRequestException("No puedes eliminar tu propio usuario en sesión activa.");
-        }
+        long adminCount = usuarioRepository.findAll().stream()
+                .filter(u -> "ROLE_ADMIN".equals(u.getRol()))
+                .count();
 
-        long adminCount = usuarioRepository.findAll().stream().filter(u -> "ROLE_ADMIN".equals(u.getRol())).count();
         if (adminCount <= 1 && "ROLE_ADMIN".equals(usuario.getRol())) {
-            throw new BadRequestException("No se puede eliminar el único administrador del sistema.");
+            throw new BadRequestException("No se puede eliminar el único administrador del sistema. Debe existir al menos un administrador.");
         }
 
         usuarioRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
+
