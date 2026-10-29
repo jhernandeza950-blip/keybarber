@@ -102,6 +102,23 @@
     <!-- Main Content -->
     <main class="admin-main">
       
+      <!-- Barra Superior Permanente de Administración (Siempre Visible) -->
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <span class="admin-topbar-brand"><i class="fa-solid fa-scissors text-gold"></i> KEY BARBER ADMIN</span>
+          <span class="admin-topbar-separator">/</span>
+          <span class="admin-topbar-section" id="adminHeaderSectionTitle">Citas &amp; Agenda</span>
+        </div>
+        <div class="admin-topbar-actions">
+          <a href="/" target="_blank" class="btn btn-outline" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; font-weight: 700;">
+            <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Ver Sitio Web
+          </a>
+          <button onclick="cerrarSesion()" class="btn btn-danger" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; font-weight: 700;">
+            <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i> Cerrar Sesión
+          </button>
+        </div>
+      </header>
+
       <!-- ============ TAB 1: CITAS & AGENDA (VISTA UNIFICADA) ============ -->
       <section id="tabCitas" class="tab-content">
         

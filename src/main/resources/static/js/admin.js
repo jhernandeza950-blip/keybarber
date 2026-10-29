@@ -308,6 +308,22 @@ function cambiarTab(tabName, btn) {
     btn.classList.remove('btn-outline');
   }
 
+  const headerTitulos = {
+    citas: 'Citas & Agenda',
+    agenda: 'Citas & Agenda',
+    historial: 'Historial de Citas',
+    metricas: 'Métricas & Caja',
+    servicios: 'Catálogo de Servicios',
+    barberos: 'Equipo de Barberos',
+    bloqueos: 'Bloqueos de Horario',
+    administradores: 'Administradores',
+    configuracion: 'Ajustes de Barbería'
+  };
+  const elHeaderTitle = document.getElementById('adminHeaderSectionTitle');
+  if (elHeaderTitle && headerTitulos[tabName]) {
+    elHeaderTitle.textContent = headerTitulos[tabName];
+  }
+
   if (tabName === 'citas' || tabName === 'agenda') {
     document.getElementById('tabCitas').style.display = 'block';
     cargarAgendaVisual();
