@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KEY BARBER | Cortes, Barba & Estilo Masculino Prémium</title>
+  <meta name="description" content="Reserva tu cita en Key Barber. Maestros de la navaja, cortes fade, ritual de barba tradicional y tratamientos exclusivos.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✂️</text></svg>">
+</head>
+<body>
+
+  <!-- Navegación Superior -->
+  <header>
+    <div class="nav-container">
+      <!-- Navegación Izquierda -->
+      <nav class="nav-links nav-left">
+        <a href="#servicios"><i class="fa-solid fa-scissors mr-1"></i> Servicios</a>
+        <a href="#barberos"><i class="fa-solid fa-user-tie mr-1"></i> Equipo</a>
+        <a href="#consultar"><i class="fa-solid fa-calendar-check mr-1"></i> Mi Cita</a>
+      </nav>
+
+      <!-- Logo Central con Efecto Reflectante -->
+      <a href="/" class="logo-center" title="Key Barber">
+        <div class="logo-reflect-wrapper">
+          <img src="/images/logo.jpg" alt="Key Barber Logo" class="header-logo-img">
+        </div>
+        <span id="brandName" style="display:none;">KEY BARBER</span>
+        <span id="brandSlogan" style="display:none;">Estilo &amp; Precisión</span>
+      </a>
+
+      <!-- Acciones Derecha -->
+      <div class="nav-links nav-right">
+        <a href="/admin.html" class="btn btn-outline" style="padding: 0.45rem 0.95rem; font-size: 0.85rem;">
+          <i class="fa-solid fa-lock"></i> Admin
+        </a>
+        <button onclick="abrirModalReserva()" class="btn btn-gold">
+          <i class="fa-solid fa-calendar-plus"></i> Agendar Cita
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-badge">
+      <i class="fa-solid fa-crown text-xs"></i> Barbería &amp; Cuidado Masculino Prémium
+    </div>
+    <h1 class="hero-title">Domina tu estilo con <span>Key Barber</span></h1>
+    <p class="hero-subtitle">Tradición de barbería clásica y técnicas modernas de precisión. Agenda tu cita en segundos con los mejores maestros de la navaja.</p>
+    <div class="hero-actions">
+      <button onclick="abrirModalReserva()" class="btn btn-gold" style="padding: 0.9rem 2.2rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-scissors"></i> Reservar Ahora
+      </button>
+      <a href="#servicios" class="btn btn-outline" style="padding: 0.9rem 1.8rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-eye"></i> Ver Catálogo
+      </a>
+    </div>
+  </section>
+
+  <!-- Consulta de Cita Rápida -->
+  <section id="consultar" style="background: var(--bg-secondary); padding: 2.75rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+    <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+      <h3 style="color: var(--gold); margin-bottom: 0.5rem; font-size: 1.4rem; font-weight: 800;">
+        <i class="fa-solid fa-magnifying-glass mr-1"></i> ¿Ya tienes una cita agendada?
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.35rem;">Ingresa tu código de cita (ej: <strong>KB-1024</strong>) o tu número de WhatsApp para consultar tu turno en vivo.</p>
+      <div style="display: flex; gap: 0.6rem; max-width: 520px; margin: 0 auto;">
+        <input type="text" id="inputConsulta" class="form-control" placeholder="Código KB-XXXX o Teléfono..." style="text-align: center; font-weight: 700;">
+        <button onclick="consultarCita()" class="btn btn-gold" style="padding: 0.75rem 1.5rem;">
+          <i class="fa-solid fa-search"></i> Buscar
+        </button>
+      </div>
+      <div id="resultadoConsulta" style="margin-top: 1.25rem; display: none;"></div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios" class="container">
+    <div class="section-header">
+      <h2>Catálogo de Servicios</h2>
+      <p>Servicios diseñados para elevar tu imagen al máximo nivel.</p>
+    </div>
+
+    <!-- Pestañas de categorías -->
+    <div class="categories-tabs" id="categoriasTabs">
+      <button class="tab-btn active" onclick="filtrarCategoria('TODOS', this)">Todos</button>
+      <button class="tab-btn" onclick="filtrarCategoria('Cortes', this)">Cortes</button>
+      <button class="tab-btn" onclick="filtrarCategoria('Barba', this)">Barba</button>
+      <button class="tab-btn" onclick="filtrarCategoria('Combos', this)">Combos VIP</button>
+      <button class="tab-btn" onclick="filtrarCategoria('Tratamientos', this)">Tratamientos</button>
+      <button class="tab-btn" onclick="filtrarCategoria('Color', this)">Color</button>
+    </div>
+
+    <div class="grid-cards" id="serviciosGrid">
+      <!-- Inyectado dinámicamente por app.js -->
+    </div>
+  </section>
+
+  <!-- Barberos -->
+  <section id="barberos" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <h2>Maestros de la Navaja</h2>
+        <p>Especialistas dedicados a cuidar cada detalle de tu corte y perfilado.</p>
+      </div>
+
+      <div class="grid-cards" id="barberosGrid">
+        <!-- Inyectado dinámicamente por app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.9rem; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--gold); font-size: 1.25rem; font-weight: 800; letter-spacing: 2px;">
+        <i class="fa-solid fa-scissors"></i> KEY BARBER
+      </div>
+      <p id="footerInfo">Calle 72 # 11-45, Zona Rosa | Tel: +57 310 987 6543</p>
+      <p style="font-size: 0.8rem; color: #6b7280;">&copy; 2026 Key Barber. Todos los derechos reservados. Desarrollado con Spring Boot &amp; MongoDB.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== WIZARD DE RESERVA MODAL ==================== -->
+  <div class="modal-overlay" id="modalReserva">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="wizardTitulo">
+          <i class="fa-solid fa-calendar-days"></i> <span>1. Selecciona tus Servicios</span>
+        </h3>
+        <button class="close-btn" onclick="cerrarModalReserva()">&times;</button>
+      </div>
+      <div class="modal-body" id="wizardBody">
+        <!-- Pasos interactivos inyectados por js/app.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1014 @@
+/* ============================================================
+   KEY BARBER - Estilos Prémium Luminous Light & Gold (Inspirado en ISIVI)
+   ============================================================ */
+:root {
+  /* Fondo general claro, nítido y luminoso (Plata perlada / Off-white) */
+  --bg-primary: #F8FAFC;       
+  --bg-secondary: #FFFFFF;     /* Tarjetas y superficies blancas */
+  --bg-card: #F1F5F9;          /* Fondos sutiles de inputs y bloques */
+  --bg-card-hover: #E2E8F0;
+  
+  /* Paleta adaptada al Logo: Negro Carbón Obsidiana & Plata Metálica */
+  --gold: #111317;             /* Negro carbón primario del logo */
+  --gold-hover: #232732;       /* Grafito oscuro hover */
+  --gold-light: #F1F5F9;       /* Fondo claro complementario */
+  --gold-glow: rgba(17, 19, 23, 0.2);
+  --gold-badge: rgba(17, 19, 23, 0.08);
+
+  /* Acentos de Plata Cromada del logo */
+  --silver-accent: #94A3B8;
+  --silver-border: #CBD5E1;
+  --silver-bright: #F8FAFC;
+  
+  --text-main: #0F172A;        /* Tipografía carbón profunda de alto contraste */
+  --text-muted: #64748B;       /* Texto secundario pizarra */
+  --border-color: #E2E8F0;     /* Bordes sutiles modernos en plata clara */
+  --border-gold: rgba(17, 19, 23, 0.25);
+  
+  --danger: #DC2626;
+  --danger-bg: #FEF2F2;
+  --success: #059669;
+  --success-bg: #ECFDF5;
+  --warning: #D97706;
+  --warning-bg: #FFFBEB;
+  --info: #2563EB;
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 8px rgba(35, 28, 22, 0.04);
+  --shadow-md: 0 6px 20px rgba(35, 28, 22, 0.08);
+  --shadow-lg: 0 16px 36px rgba(35, 28, 22, 0.12);
+  
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-title: 'Cinzel', 'Playfair Display', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #D5C8B8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+/* Header & Nav */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 248, 245, 0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.65rem 1.5rem 0.85rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.logo-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  position: relative;
+}
+
+/* ============================================================
+   LOGO CENTRADO CON EFECTO REFLECTANTE (LUSTRE METÁLICO)
+   ============================================================ */
+.logo-reflect-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+  border: 2px solid rgba(203, 213, 225, 0.75); /* Bisel plata cromo metálico */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 12px rgba(148, 163, 184, 0.18);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  line-height: 0;
+}
+
+.header-logo-img {
+  height: 102px; /* 👈 Más grande y protagonista */
+  max-width: 270px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+/* Haz de luz diagonal reflectante continuo (Sweep Shimmer) */
+.logo-reflect-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -90%;
+  width: 55%;
+  height: 220%;
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  animation: logoReflectSweep 3.6s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Capa de reflejo vítreo superior */
+.logo-reflect-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.02));
+  pointer-events: none;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  z-index: 1;
+}
+
+@keyframes logoReflectSweep {
+  0%, 65% {
+    left: -100%;
+    opacity: 0;
+  }
+  68% {
+    opacity: 1;
+  }
+  84% {
+    left: 160%;
+    opacity: 1;
+  }
+  85%, 100% {
+    left: 160%;
+    opacity: 0;
+  }
+}
+
+.logo-center:hover .logo-reflect-wrapper {
+  transform: translateY(-2px) scale(1.04);
+  border-color: #FFFFFF;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45), 0 0 26px rgba(203, 213, 225, 0.6);
+}
+
+.logo-center:hover .header-logo-img {
+  transform: scale(1.02);
+  filter: brightness(1.08);
+}
+
+.logo-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--gold), #8C682E);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 14px var(--gold-glow);
+}
+
+.brand-text h1 {
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  color: var(--text-main);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.brand-text p {
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.93rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #111317 0%, #262A34 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(203, 213, 225, 0.35);
+  box-shadow: 0 4px 14px rgba(17, 19, 23, 0.25);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #262A34 0%, #111317 100%);
+  border-color: #CBD5E1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17, 19, 23, 0.35);
+}
+
+.btn-outline {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline:hover {
+  border-color: #111317;
+  color: #111317;
+  background: #F1F5F9;
+}
+
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { background: #047857; }
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  padding: 5rem 1.5rem 4.5rem 1.5rem;
+  text-align: center;
+  background: radial-gradient(circle at 50% 20%, rgba(148, 163, 184, 0.16) 0%, transparent 68%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, #0F172A 0%, #334155 50%, #0F172A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 3px solid #94A3B8;
+  padding-bottom: 2px;
+}
+
+.hero-subtitle {
+  max-width: 680px;
+  margin: 0 auto 2.5rem auto;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Sections */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Categories Filter */
+.categories-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 0.55rem 1.3rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: #FFFFFF;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: var(--gold);
+  color: #FFFFFF;
+  border-color: var(--gold);
+  box-shadow: 0 4px 14px var(--gold-glow);
+}
+
+/* Service Cards Grid */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+.service-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.service-card:hover .service-img {
+  transform: scale(1.05);
+}
+
+.service-duration-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-gold);
+  color: var(--gold);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+
+.service-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.service-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.service-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.service-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.service-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  line-height: 1.5;
+}
+
+.service-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.service-price {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+/* Barber Cards Grid */
+.barber-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 1.75rem;
+  text-align: center;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+.barber-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-lg);
+}
+
+.barber-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1.25rem auto;
+  border: 3px solid var(--gold);
+  box-shadow: 0 4px 14px var(--gold-glow);
+}
+
+.barber-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.barber-spec {
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.barber-bio {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   CALENDARIO VISUAL INTERACTIVO ESTILO ISIVI
+   ============================================================ */
+.isivi-calendar-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.isivi-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.isivi-calendar-header h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  text-transform: capitalize;
+}
+
+.isivi-calendar-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.isivi-calendar-nav-btn:hover {
+  background: var(--gold);
+  color: #FFFFFF;
+  border-color: var(--gold);
+}
+
+.isivi-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.isivi-calendar-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem;
+}
+
+.cal-day-cell {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid transparent;
+}
+
+.cal-day-cell:hover:not(.disabled) {
+  border-color: var(--gold);
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+.cal-day-cell.selected {
+  background: var(--gold) !important;
+  color: #FFFFFF !important;
+  font-weight: 800;
+  box-shadow: 0 4px 12px var(--gold-glow);
+}
+
+.cal-day-cell.today {
+  border-color: var(--gold);
+}
+
+.cal-day-cell.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: transparent;
+  color: #9CA3AF;
+}
+
+/* Slots de tiempo */
+.slots-container-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.slot-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  transition: var(--transition);
+}
+
+.slot-item:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-light);
+}
+
+.slot-item.selected {
+  background: var(--gold) !important;
+  color: #FFFFFF !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 4px 10px var(--gold-glow);
+}
+
+/* ============================================================
+   MODAL / WIZARD DE RESERVA
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 28, 22, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-primary);
+}
+
+.modal-header h3 {
+  font-size: 1.25rem;
+  color: var(--gold);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.close-btn:hover { color: var(--text-main); }
+
+.modal-body {
+  padding: 1.75rem;
+  overflow-y: auto;
+}
+
+/* ============================================================
+   SELECTOR DE ARCHIVO / DROPZONE ESTILO ISIVI
+   ============================================================ */
+.file-upload-box {
+  border: 2px dashed var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--gold-light);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.file-upload-box:hover {
+  background: #F2E8D8;
+  border-color: var(--gold);
+}
+
+.file-upload-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Form inputs */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.92rem;
+  outline: none;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-control:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.badge-CONFIRMADA { background: var(--success-bg); color: var(--success); border: 1px solid var(--success); }
+.badge-PENDIENTE { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning); }
+.badge-EN_PROCESO { background: #EFF6FF; color: var(--info); border: 1px solid var(--info); }
+.badge-COMPLETADA { background: #FAF5FF; color: #9333EA; border: 1px solid #C084FC; }
+.badge-CANCELADA { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger); }
+
+/* Admin Layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 260px;
+  background: #FFFFFF;
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-main {
+  flex-grow: 1;
+  padding: 2.25rem;
+  background: var(--bg-primary);
+  overflow-y: auto;
+}
+
+.metric-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+}
+
+.metric-number {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--gold);
+  margin-top: 0.4rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #FFFFFF;
+}
+
+.data-table th, .data-table td {
+  padding: 0.95rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  background: #FAF8F5;
+  color: var(--gold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.data-table tr:hover {
+  background: rgba(185, 143, 74, 0.04);
+}
+
+/* Footer */
+footer {
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem 0.95rem 1rem;
+    text-align: center;
+  }
+  .logo-center {
+    order: 1;
+  }
+  .header-logo-img {
+    height: 80px;
+  }
+  .nav-left {
+    order: 2;
+    justify-content: center;
+    gap: 1.25rem;
+    font-size: 0.9rem;
+  }
+  .nav-right {
+    order: 3;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .hero-title { font-size: 2.2rem; }
+  .grid-cards { grid-template-columns: 1fr; }
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar { width: 100%; min-height: auto; }
+}
+
+/* ==================== ESTILOS AGENDA VISUAL INTERACTIVA (ESTILO ISIVI) ==================== */
+.agenda-slot-card:hover {
+  border-color: #C5A059 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+.btn-nav-semana {
+  background: #181C26;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 800;
+}
+.btn-nav-semana:hover {
+  background: #C5A059;
+  color: #000000;
+  border-color: #C5A059;
+}
+.btn-nav-hoy {
+  background: #181C26;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #C5A059;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.btn-nav-hoy:hover {
+  background: #C5A059;
+  color: #000000;
+}

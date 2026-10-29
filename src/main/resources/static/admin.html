@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrativo | KEY BARBER</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body style="background: var(--bg-primary);">
+
+  <!-- ==================== VISTA LOGIN ==================== -->
+  <div id="loginView" style="display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2.75rem; max-width: 440px; width: 100%; box-shadow: var(--shadow-lg);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="logo-reflect-wrapper" style="margin: 0 auto 1.25rem auto;">
+          <img src="/images/logo.jpg" alt="Key Barber" style="height: 76px; width: auto; display: block;">
+        </div>
+        <h2 style="color: var(--text-main); font-size: 1.65rem; font-weight: 900; letter-spacing: 1px;">ACCESO ADMINISTRADOR</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.35rem;">Ingresa tus credenciales para gestionar Key Barber</p>
+      </div>
+
+      <div id="loginError" style="display: none; background: var(--danger-bg); border: 1px solid var(--danger); color: var(--danger); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem; font-size: 0.88rem; text-align: center; font-weight: 700;"></div>
+
+      <form id="formLogin" onsubmit="iniciarSesion(event)">
+        <div class="form-group">
+          <label>Usuario / Email</label>
+          <input type="email" id="loginEmail" class="form-control" value="admin@keybarber.com" required>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="loginPassword" class="form-control" value="Admin123456!" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.9rem; margin-top: 0.5rem; font-size: 0.95rem;">
+          <i class="fa-solid fa-right-to-bracket mr-1"></i> Ingresar al Panel
+        </button>
+      </form>
+      <div style="text-align: center; margin-top: 1.75rem;">
+        <a href="/" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; font-weight: 600;">
+          <i class="fa-solid fa-arrow-left mr-1"></i> Volver al sitio público
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VISTA DASHBOARD PRINCIPAL ==================== -->
+  <div id="dashboardView" style="display: none;" class="admin-layout">
+    
+    <!-- Sidebar Navegación -->
+    <aside class="admin-sidebar">
+      <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.25rem;">
+        <div class="logo-reflect-wrapper" style="border-radius: 8px;">
+          <img src="/images/logo.jpg" alt="Key Barber" style="height: 38px; width: auto; display: block;">
+        </div>
+        <div>
+          <h3 style="font-size: 1.15rem; color: var(--text-main); font-weight: 800; letter-spacing: 1px;">KEY BARBER</h3>
+          <p style="font-size: 0.72rem; color: var(--gold); font-weight: 800;" id="userRole">ADMIN</p>
+        </div>
+      </div>
+
+      <nav style="display: flex; flex-direction: column; gap: 0.45rem;">
+        <button class="btn btn-gold" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('citas', this)" id="btnTabCitas">
+          <i class="fa-solid fa-calendar-check mr-2"></i> Citas &amp; Agenda
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('historial', this)" id="btnTabHistorial">
+          <i class="fa-solid fa-clock-rotate-left mr-2 text-gold"></i> Historial de Citas
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('metricas', this)">
+          <i class="fa-solid fa-chart-pie mr-2 text-gold"></i> Métricas &amp; Caja
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('servicios', this)">
+          <i class="fa-solid fa-scissors mr-2 text-gold"></i> Catálogo Servicios
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('barberos', this)">
+          <i class="fa-solid fa-user-tie mr-2 text-gold"></i> Equipo de Barberos
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('bloqueos', this)">
+          <i class="fa-solid fa-calendar-xmark mr-2 text-gold"></i> Bloqueos de Horario
+        </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('configuracion', this)">
+          <i class="fa-solid fa-gear mr-2 text-gold"></i> Ajustes Barbería
+        </button>
+      </nav>
+
+      <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; word-break: break-all; font-weight: 600;" id="userName">admin@keybarber.com</p>
+        <div style="display: flex; gap: 0.5rem;">
+          <a href="/" target="_blank" class="btn btn-outline" style="flex: 1; padding: 0.45rem; font-size: 0.8rem;">
+            <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Ver Sitio
+          </a>
+          <button onclick="cerrarSesion()" class="btn btn-danger" style="padding: 0.45rem 0.85rem; font-size: 0.8rem;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Salir
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      
+      <!-- ============ TAB 1: CITAS & AGENDA (VISTA UNIFICADA) ============ -->
+      <section id="tabCitas" class="tab-content">
+        
+        <!-- ============ AGENDA VISUAL INTERACTIVA (SLIDER / SCROLL COMPACTO) ============ -->
+        <div style="background: #10141D; border: 1px solid rgba(197, 160, 89, 0.35); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+          <!-- Encabezado de la Agenda -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <span style="background: rgba(197, 160, 89, 0.15); color: #C5A059; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border: 1px solid rgba(197, 160, 89, 0.3);">
+                  <i class="fa-solid fa-calendar-days"></i>
+                </span>
+                <h3 id="tituloVistaAgenda" style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF; letter-spacing: 0.5px; margin: 0;">
+                  AGENDA SEMANAL
+                </h3>
+              </div>
+              <p id="subtituloVistaAgenda" style="font-size: 0.82rem; color: #94A3B8; margin-top: 0.35rem;">
+                Visualiza la disponibilidad y las citas de toda la semana de forma compacta y sin enredos. Haz clic en un turno para gestionarlo.
+              </p>
+            </div>
+
+            <!-- Controles y Selector de Vista -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+              <div style="background: #181C26; padding: 0.25rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 0.25rem;">
+                <button type="button" id="btnModoSemanal" onclick="cambiarModoAgendaVisual('SEMANAL')" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; transition: var(--transition); background: #C5A059; color: #000000;">
+                  <i class="fa-solid fa-calendar-week mr-1"></i> Agenda Semanal
+                </button>
+                <button type="button" id="btnModoFecha" onclick="cambiarModoAgendaVisual('FECHA')" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; transition: var(--transition); background: transparent; color: #94A3B8;">
+                  <i class="fa-solid fa-calendar-day mr-1"></i> Por Fecha
+                </button>
+              </div>
+
+              <button onclick="abrirModalHorarioSemanal()" class="btn btn-outline" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; border-color: rgba(197, 160, 89, 0.4); color: #C5A059;">
+                <i class="fa-solid fa-sliders mr-1"></i> Configurar Turnos
+              </button>
+            </div>
+          </div>
+
+          <!-- Contenedor Dinámico: Renderizado de la Agenda Semanal o por Fecha -->
+          <div id="contenedorAgendaVisual" style="max-height: 520px; overflow-y: auto; padding-right: 0.35rem;">
+            <div style="text-align: center; color: #94A3B8; padding: 2.5rem;">
+              <i class="fa-solid fa-spinner fa-spin text-gold mr-2 text-xl"></i> Cargando agenda visual interactiva...
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Mesa en Vivo: Clientes en Silla (En Atención) -->
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-md);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="background: rgba(234, 179, 8, 0.15); color: #B45309; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; border: 1px solid rgba(234, 179, 8, 0.3);">
+                  <i class="fa-solid fa-scissors"></i>
+                </span>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                  Clientes en Silla (En Atención)
+                </h3>
+                <span id="badgeContadorEnProceso" style="background: rgba(234, 179, 8, 0.15); color: #B45309; border: 1px solid rgba(234, 179, 8, 0.3); font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: var(--radius-full);">
+                  0 en atención
+                </span>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">
+                Solo las citas activas que están siendo atendidas en este momento. Al cobrar, pasarán al <strong>Historial de Citas</strong>.
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="cargarCitasAdmin()" class="btn btn-gold" style="padding: 0.45rem 1rem; font-size: 0.82rem;">
+                <i class="fa-solid fa-rotate mr-1"></i> Actualizar
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabla de Clientes en Atención -->
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Teléfono</th>
+                  <th>Barbero Asignado</th>
+                  <th>Servicios en Corte</th>
+                  <th>Total a Cobrar</th>
+                  <th>Estado</th>
+                  <th style="text-align: right;">Acciones de Atención</th>
+                </tr>
+              </thead>
+              <tbody id="tablaCitasBody">
+                <tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 2rem;">Cargando citas en proceso...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Próximas Citas Confirmadas de Hoy (Listas para atender) -->
+          <div style="border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                <i class="fa-regular fa-calendar-check text-gold mr-1"></i> Citas Programadas para Hoy (Esperando Turno)
+              </h4>
+              <span id="contadorCitasConfirmadasHoy" style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">
+                0 en espera
+              </span>
+            </div>
+            <div id="listaCitasConfirmadasHoy" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;">
+              <div style="color: var(--text-muted); font-size: 0.82rem; padding: 0.5rem;">No hay citas adicionales en espera para hoy.</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============ TAB: HISTORIAL DE CITAS (DONDE LLEGAN LAS COMPLETADAS) ============ -->
+      <section id="tabHistorial" class="tab-content" style="display: none;">
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-md);">
+          
+          <!-- Encabezado del Historial -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="background: rgba(185, 143, 74, 0.12); color: var(--gold); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; border: 1px solid rgba(185, 143, 74, 0.3);">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+                </span>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                  Historial de Citas y Registros
+                </h3>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">
+                Todos los registros completados o cobrados llegan aquí. Puedes buscar y <strong>eliminar permanentemente</strong> cada registro si lo deseas.
+              </p>
+            </div>
+
+            <!-- Resumen Rápido de Caja del Historial -->
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <div style="background: var(--bg-card); padding: 0.5rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: right;">
+                <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block;">Total Facturado</span>
+                <strong id="historialTotalFacturado" style="color: #059669; font-size: 1.1rem; font-weight: 800;">$0</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 0.5rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: right;">
+                <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block;">Citas Registradas</span>
+                <strong id="historialTotalRegistros" style="color: var(--text-main); font-size: 1.1rem; font-weight: 800;">0</strong>
+              </div>
+              <button onclick="cargarHistorialAdmin()" class="btn btn-gold" style="padding: 0.55rem 1rem; font-size: 0.85rem;">
+                <i class="fa-solid fa-rotate mr-1"></i> Actualizar
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtros de Búsqueda del Historial -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; background: var(--bg-card); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Buscar cliente / código / teléfono</label>
+              <input type="text" id="filtroHistorialTexto" oninput="filtrarHistorialTabla()" placeholder="Nombre, teléfono o KB-..." class="form-control" style="font-size: 0.85rem; padding: 0.55rem 0.75rem;">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Estado</label>
+              <select id="filtroHistorialEstado" class="form-control" style="font-size: 0.85rem; padding: 0.55rem 0.75rem;" onchange="cargarHistorialAdmin()">
+                <option value="COMPLETADA" selected>Solo Completadas (Cobradas)</option>
+                <option value="CANCELADA">Solo Canceladas</option>
+                <option value="TODOS">Todos los Registros</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tabla del Historial -->
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Teléfono</th>
+                  <th>Barbero</th>
+                  <th>Servicios Realizados</th>
+                  <th>Total Cobrado</th>
+                  <th>Estado</th>
+                  <th style="text-align: right;">Eliminar</th>
+                </tr>
+              </thead>
+              <tbody id="tablaHistorialBody">
+                <tr><td colspan="10" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">Cargando historial de citas...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+
+
+      <!-- ============ TAB 2: MÉTRICAS & CAJA ============ -->
+      <section id="tabMetricas" class="tab-content" style="display: none;">
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.5rem;">
+          <i class="fa-solid fa-chart-pie text-gold mr-1"></i> Resumen de Métricas &amp; Caja
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <div class="metric-card">
+            <span style="color: var(--text-muted); font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">Citas Hoy</span>
+            <div class="metric-number" id="metricaCitasHoy">0</div>
+          </div>
+          <div class="metric-card">
+            <span style="color: var(--warning); font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">Pendientes / En Proceso</span>
+            <div class="metric-number" style="color: var(--warning);" id="metricaPendientesHoy">0</div>
+          </div>
+          <div class="metric-card">
+            <span style="color: var(--success); font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">Completadas Hoy</span>
+            <div class="metric-number" style="color: var(--success);" id="metricaCompletadasHoy">0</div>
+          </div>
+          <div class="metric-card">
+            <span style="color: var(--gold); font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">Facturado Hoy</span>
+            <div class="metric-number" id="metricaIngresosHoy">$0</div>
+          </div>
+          <div class="metric-card">
+            <span style="color: var(--info); font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">Facturado Esta Semana</span>
+            <div class="metric-number" style="color: var(--info);" id="metricaIngresosSemana">$0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TAB 3: SERVICIOS CON SELECTOR DE ARCHIVO Y LIVE PREVIEW ============ -->
+      <section id="tabServicios" class="tab-content" style="display: none;">
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem; margin-bottom: 2rem; box-shadow: var(--shadow-md);">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+            <h3 id="formServicioTitulo" style="font-size: 1.25rem; font-weight: 800; color: var(--gold); display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-scissors"></i> <span>Crear Nuevo Servicio de Barbería</span>
+            </h3>
+            <button id="btnCancelarEdicionServ" onclick="resetearFormServicio()" class="btn btn-outline" style="display: none; padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+              Cancelar Edición
+            </button>
+          </div>
+
+          <form id="formEditorServicio" onsubmit="guardarServicioConPreview(event)">
+            <input type="hidden" id="servEditId" value="">
+            <input type="hidden" id="liveServImgData" value="">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Nombre del Servicio *</label>
+                <input type="text" id="liveServNombre" class="form-control" placeholder="Ej: Skin Fade &amp; Ritual Barba" required oninput="actualizarPreviewEnVivo()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Categoría</label>
+                <select id="liveServCategoria" class="form-control" onchange="actualizarPreviewEnVivo()">
+                  <option value="Cortes">Cortes</option>
+                  <option value="Barba">Barba</option>
+                  <option value="Combos">Combos VIP</option>
+                  <option value="Tratamientos">Tratamientos</option>
+                  <option value="Color">Color</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Precio ($ COP) *</label>
+                <input type="number" id="liveServPrecio" class="form-control" placeholder="Ej: 35000" required oninput="actualizarPreviewEnVivo()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label>Duración Estimada (Minutos) *</label>
+                <input type="number" id="liveServDuracion" class="form-control" value="30" step="5" required oninput="actualizarPreviewEnVivo()">
+              </div>
+            </div>
+
+            <!-- SELECTOR DE ARCHIVO LOCAL (100% CERO URLs) -->
+            <div class="form-group">
+              <label>Foto del Servicio (Selecciona un archivo de tu equipo) *</label>
+              <div class="file-upload-box" id="servDropZone">
+                <input type="file" id="servFileInput" class="file-upload-input" accept="image/png,image/jpeg,image/webp" onchange="manejarSubidaArchivoServicio(event)">
+                <i class="fa-solid fa-cloud-arrow-up text-gold" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                <strong style="color: var(--text-main); font-size: 0.95rem; display: block;" id="servFileNameLabel">Haz clic o arrastra una imagen aquí (JPG, PNG, WebP)</strong>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">La foto se reflejará al instante en la tarjeta de vista previa</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Descripción del Procedimiento</label>
+              <textarea id="liveServDesc" class="form-control" rows="2" placeholder="Detalla los procedimientos incluidos..." oninput="actualizarPreviewEnVivo()"></textarea>
+            </div>
+
+            <!-- CONTROLES DE ENCUADRE Y VISTA PREVIA EN TARJETA -->
+            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; align-items: start;">
+              
+              <!-- Columna Controles -->
+              <div>
+                <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">
+                  <i class="fa-solid fa-crop-simple mr-1"></i> Encuadre &amp; Zoom de Imagen
+                </h4>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                  Ajusta el zoom y la posición para que la foto se adapte perfectamente al marco.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Modo de Ajuste</label>
+                    <select id="servFitMode" class="form-control" onchange="actualizarPreviewEnVivo()">
+                      <option value="cover">Cubrir Marco (Cover)</option>
+                      <option value="contain">Encajar Completo (Contain)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <span>Zoom / Escala</span>
+                      <span id="servZoomVal" style="color: var(--gold); font-family: monospace;">1.00x</span>
+                    </label>
+                    <input type="range" id="servZoom" min="0.7" max="2.5" step="0.05" value="1.0" style="width: 100%; accent-color: var(--gold);" oninput="actualizarPreviewEnVivo()">
+                  </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <span>Posición X</span>
+                      <span id="servPosXVal" style="color: var(--gold); font-family: monospace;">50%</span>
+                    </label>
+                    <input type="range" id="servPosX" min="0" max="100" step="1" value="50" style="width: 100%; accent-color: var(--gold);" oninput="actualizarPreviewEnVivo()">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <span>Posición Y</span>
+                      <span id="servPosYVal" style="color: var(--gold); font-family: monospace;">50%</span>
+                    </label>
+                    <input type="range" id="servPosY" min="0" max="100" step="1" value="50" style="width: 100%; accent-color: var(--gold);" oninput="actualizarPreviewEnVivo()">
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem;">
+                  <button type="button" onclick="setPresetServicio('cover')" class="btn btn-outline" style="flex: 1; padding: 0.45rem; font-size: 0.78rem;">
+                    <i class="fa-solid fa-scissors text-gold mr-1"></i> Modelo / Fade
+                  </button>
+                  <button type="button" onclick="setPresetServicio('contain')" class="btn btn-outline" style="flex: 1; padding: 0.45rem; font-size: 0.78rem;">
+                    <i class="fa-solid fa-expand text-gold mr-1"></i> Encajar Todo
+                  </button>
+                  <button type="button" onclick="resetearSlidersServicio()" class="btn btn-outline" style="padding: 0.45rem 0.8rem; font-size: 0.78rem;">
+                    Restablecer
+                  </button>
+                </div>
+              </div>
+
+              <!-- Columna Tarjeta Vista Previa en Vivo -->
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 800; color: var(--gold); letter-spacing: 1px; margin-bottom: 0.75rem;">
+                  <i class="fa-solid fa-eye mr-1"></i> Vista Previa en Tarjeta
+                </span>
+
+                <div class="service-card" style="width: 100%; max-width: 320px;">
+                  <div class="service-img-wrap">
+                    <img id="previewCardImg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80" class="service-img" alt="Vista previa">
+                    <span class="service-duration-badge" id="previewCardDuration">⏱️ 30 min</span>
+                  </div>
+                  <div class="service-body">
+                    <div class="service-meta">
+                      <span class="service-category" id="previewCardCategory">Cortes</span>
+                    </div>
+                    <h3 class="service-title" id="previewCardTitle">Nombre del Servicio</h3>
+                    <p class="service-desc" id="previewCardDesc">Detalla los procedimientos incluidos...</p>
+                    <div class="service-footer">
+                      <span class="service-price" id="previewCardPrice">$35.000</span>
+                      <button type="button" class="btn btn-gold" style="padding: 0.45rem 1rem; font-size: 0.8rem; opacity: 0.8; cursor: default;">
+                        <i class="fa-solid fa-calendar-plus mr-1"></i> Agendar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+              <button type="submit" id="btnGuardarServicio" class="btn btn-gold" style="padding: 0.85rem 2rem; font-size: 0.95rem;">
+                <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Servicio
+              </button>
+            </div>
+          </form>
+
+        </div>
+
+        <!-- Tabla de Servicios Registrados -->
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">
+              Servicios Registrados en el Sistema
+            </h4>
+            <button onclick="resetearFormServicio(); window.scrollTo({top: 0, behavior: 'smooth'});" class="btn btn-gold" style="padding: 0.45rem 0.9rem; font-size: 0.82rem;">
+              <i class="fa-solid fa-plus mr-1"></i> + Nuevo Servicio
+            </button>
+          </div>
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Servicio</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Duración</th>
+                  <th>Estado</th>
+                  <th style="text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaServiciosBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TAB 4: BARBEROS CON SELECTOR DE ARCHIVO LOCAL ============ -->
+      <section id="tabBarberos" class="tab-content" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">Equipo de Barberos</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem;">Agrega, edita o elimina a los profesionales, turnos laborales y descansos.</p>
+          </div>
+          <button onclick="abrirModalBarbero()" class="btn btn-gold">
+            <i class="fa-solid fa-plus mr-1"></i> + Nuevo Barbero
+          </button>
+        </div>
+
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow-x: auto; box-shadow: var(--shadow-sm);">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Teléfono</th>
+                <th>Turno</th>
+                <th>Almuerzo</th>
+                <th>Estado</th>
+                <th style="text-align: right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBarberosBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ TAB 5: BLOQUEOS DE HORARIO ============ -->
+      <section id="tabBloqueos" class="tab-content" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">Bloqueos de Agenda</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem;">Inhabilita franjas horarias por citas médicas, descansos o mantenimiento.</p>
+          </div>
+          <button onclick="abrirModalBloqueo()" class="btn btn-gold">
+            <i class="fa-solid fa-lock mr-1"></i> + Nuevo Bloqueo
+          </button>
+        </div>
+
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow-x: auto; box-shadow: var(--shadow-sm);">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Horario</th>
+                <th>Aplica a</th>
+                <th>Motivo</th>
+                <th style="text-align: right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaBloqueosBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ TAB 6: AJUSTES BARBERÍA ============ -->
+      <section id="tabConfiguracion" class="tab-content" style="display: none;">
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.5rem;">
+          <i class="fa-solid fa-gear text-gold mr-1"></i> Configuración General del Negocio
+        </h2>
+        
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 2rem; max-width: 720px; box-shadow: var(--shadow-sm);">
+          <form id="formConfig" onsubmit="guardarConfiguracion(event)">
+            <div class="form-group">
+              <label>Nombre del Negocio</label>
+              <input type="text" id="cfgNombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Slogan de Marca</label>
+              <input type="text" id="cfgSlogan" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Dirección</label>
+              <input type="text" id="cfgDireccion" class="form-control">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label>Teléfono de Contacto</label>
+                <input type="text" id="cfgTelefono" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>WhatsApp Oficial (ej: 573109876543)</label>
+                <input type="text" id="cfgWhatsapp" class="form-control">
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label>Intervalo de turnos (minutos)</label>
+                <input type="number" id="cfgIntervalo" class="form-control" value="30">
+              </div>
+              <div class="form-group">
+                <label>Anticipación máxima (días)</label>
+                <input type="number" id="cfgAnticipacion" class="form-control" value="15">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold" style="margin-top: 1rem; padding: 0.8rem 1.8rem;">
+              <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Ajustes
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============ MODAL: EDITAR HORARIO SEMANAL (TAL CUAL ISIVI) ============ -->
+  <div class="modal-overlay" id="modalHorarioSemanal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.15rem;">
+            <i class="fa-solid fa-clock text-gold mr-1"></i> Editar Horario Semanal
+          </h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Configura los días laborales habituales y los turnos de atención de la barbería.</p>
+        </div>
+        <button class="close-btn" onclick="cerrarModalHorarioSemanal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 1.5rem; overflow-y: auto;">
+        
+        <!-- Alerta error -->
+        <div id="adminHorarioError" style="display: none; background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-circle-exclamation text-danger"></i>
+          <span></span>
+        </div>
+
+        <!-- 1. Días Laborales -->
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.65rem;">
+            Días Laborales Habituales (Haz clic para activar o desactivar)
+          </label>
+          <div id="adminModalWorkingDays" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem;">
+            <!-- Inyectado por JS -->
+          </div>
+        </div>
+
+        <!-- 2. Turnos de Atención por Defecto -->
+        <div style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+            <label style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin: 0;">
+              Turnos de Atención por Defecto (<span id="totalTurnosCount">0</span> turnos)
+            </label>
+            <button type="button" onclick="limpiarTodosTurnosModal()" style="background: none; border: none; font-size: 0.75rem; color: #ef4444; cursor: pointer; text-decoration: underline; font-weight: 600;">
+              Limpiar todos
+            </button>
+          </div>
+
+          <!-- Contenedor de Chips -->
+          <div id="adminModalAgendaHours" style="display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-primary); max-height: 180px; overflow-y: auto;">
+            <!-- Inyectado por JS -->
+          </div>
+
+          <!-- Agregar Turno Individual -->
+          <div style="margin-top: 1rem; background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.85rem;">
+            <span style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-plus-circle text-gold mr-1"></i> Añadir Turno Personalizado:
+            </span>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+              <select id="adminModalAgendaHour" class="form-control" style="width: auto; min-width: 65px; padding: 0.45rem 0.6rem; font-size: 0.85rem;">
+                <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+                <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+                <option value="07">07</option><option value="08">08</option><option value="09" selected>09</option>
+                <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+              </select>
+              <span style="font-weight: 800; color: var(--text-muted);">:</span>
+              <select id="adminModalAgendaMinutes" class="form-control" style="width: auto; min-width: 65px; padding: 0.45rem 0.6rem; font-size: 0.85rem;">
+                <option value="00">00</option><option value="05">05</option><option value="10">10</option>
+                <option value="15">15</option><option value="20">20</option><option value="25">25</option>
+                <option value="30">30</option><option value="35">35</option><option value="40">40</option>
+                <option value="45">45</option><option value="50">50</option><option value="55">55</option>
+              </select>
+              <select id="adminModalAgendaPeriod" class="form-control" style="width: auto; min-width: 70px; padding: 0.45rem 0.6rem; font-size: 0.85rem;">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              <button type="button" onclick="addModalAgendaTime()" class="btn btn-outline" style="padding: 0.45rem 0.9rem; font-size: 0.82rem; font-weight: 700;">
+                <i class="fa-solid fa-plus mr-1"></i> Añadir Turno
+              </button>
+            </div>
+          </div>
+
+          <!-- Generador Rápido de Intervalos -->
+          <div style="margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Generación rápida:</span>
+            <button type="button" onclick="generarTurnosIntervalo(30)" class="btn btn-outline" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">
+              Cada 30 min (08:00 AM - 08:00 PM)
+            </button>
+            <button type="button" onclick="generarTurnosIntervalo(45)" class="btn btn-outline" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">
+              Cada 45 min
+            </button>
+            <button type="button" onclick="generarTurnosIntervalo(60)" class="btn btn-outline" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">
+              Cada 1 hora
+            </button>
+            <button type="button" onclick="restaurarTurnosPorDefectoModal()" class="btn btn-outline" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">
+              Restaurar inicial
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+          <button type="button" onclick="cerrarModalHorarioSemanal()" class="btn btn-outline">Cancelar</button>
+          <button type="button" id="btnGuardarHorarioSemanal" onclick="submitWeeklyScheduleModal()" class="btn btn-gold">
+            <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Horario Semanal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Admin Genérico (Barberos / Bloqueos) -->
+  <div class="modal-overlay" id="modalAdmin">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalAdminTitulo">Título</h3>
+        <button class="close-btn" onclick="cerrarModalAdmin()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalAdminBody"></div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
