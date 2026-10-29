@@ -27,6 +27,25 @@ const NOMBRES_MESES = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
 
+// Acceso secreto a Administración: 4 clics seguidos en el Logo
+let clicsLogoAdmin = 0;
+let timerClicsLogo = null;
+
+function registrarClicLogoAdmin() {
+  clicsLogoAdmin++;
+  clearTimeout(timerClicsLogo);
+  
+  if (clicsLogoAdmin >= 4) {
+    clicsLogoAdmin = 0;
+    window.location.href = '/admin.html';
+    return;
+  }
+  
+  timerClicsLogo = setTimeout(() => {
+    clicsLogoAdmin = 0;
+  }, 2500);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   cargarConfiguracion();
   cargarServicios();

@@ -78,6 +78,9 @@
         <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('bloqueos', this)">
           <i class="fa-solid fa-calendar-xmark mr-2 text-gold"></i> Bloqueos de Horario
         </button>
+        <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('administradores', this)">
+          <i class="fa-solid fa-user-shield mr-2 text-gold"></i> Administradores
+        </button>
         <button class="btn btn-outline" style="justify-content: flex-start; text-align: left;" onclick="cambiarTab('configuracion', this)">
           <i class="fa-solid fa-gear mr-2 text-gold"></i> Ajustes Barbería
         </button>
@@ -562,6 +565,56 @@
             </thead>
             <tbody id="tablaBloqueosBody"></tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- ============ TAB: ADMINISTRADORES (GESTIÓN DE ACCESOS Y USUARIOS) ============ -->
+      <section id="tabAdministradores" class="tab-content" style="display: none;">
+        <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: var(--shadow-md);">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="background: rgba(185, 143, 74, 0.12); color: var(--gold); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; border: 1px solid rgba(185, 143, 74, 0.3);">
+                  <i class="fa-solid fa-user-shield"></i>
+                </span>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                  Gestión de Administradores
+                </h3>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">
+                Crea y administra los usuarios con acceso al panel de control de Key Barber.
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="abrirModalNuevoAdmin()" class="btn btn-gold" style="padding: 0.55rem 1.1rem; font-size: 0.85rem; font-weight: 700;">
+                <i class="fa-solid fa-user-plus mr-1"></i> Nuevo Administrador
+              </button>
+              <button onclick="cargarUsuariosAdmin()" class="btn btn-outline" style="padding: 0.55rem 0.85rem; font-size: 0.85rem;">
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabla de Administradores -->
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Usuario / Email</th>
+                  <th>Nombre</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th style="text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaUsuariosAdminBody">
+                <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">Cargando administradores...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </section>
 

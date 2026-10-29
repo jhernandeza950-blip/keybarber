@@ -21,20 +21,17 @@
         <a href="#consultar"><i class="fa-solid fa-calendar-check mr-1"></i> Mi Cita</a>
       </nav>
 
-      <!-- Logo Central con Efecto Reflectante -->
-      <a href="/" class="logo-center" title="Key Barber">
+      <!-- Logo Central con Efecto Reflectante y Acceso Secreto (4 clics para Admin) -->
+      <div class="logo-center" title="Key Barber" style="cursor: pointer;" onclick="registrarClicLogoAdmin()">
         <div class="logo-reflect-wrapper">
           <img src="/images/logo.jpg" alt="Key Barber Logo" class="header-logo-img">
         </div>
         <span id="brandName" style="display:none;">KEY BARBER</span>
         <span id="brandSlogan" style="display:none;">Estilo &amp; Precisión</span>
-      </a>
+      </div>
 
       <!-- Acciones Derecha -->
       <div class="nav-links nav-right">
-        <a href="/admin.html" class="btn btn-outline" style="padding: 0.45rem 0.95rem; font-size: 0.85rem;">
-          <i class="fa-solid fa-lock"></i> Admin
-        </a>
         <button onclick="abrirModalReserva()" class="btn btn-gold">
           <i class="fa-solid fa-calendar-plus"></i> Agendar Cita
         </button>

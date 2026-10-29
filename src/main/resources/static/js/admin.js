@@ -269,12 +269,13 @@ function mostrarLogin() {
 function mostrarDashboard() {
   document.getElementById('loginView').style.display = 'none';
   document.getElementById('dashboardView').style.display = 'flex';
-  document.getElementById('userName').textContent = usuarioActual ? usuarioActual.email : 'Admin';
-  document.getElementById('userRole').textContent = usuarioActual ? usuarioActual.rol.replace('ROLE_', '') : 'ADMIN';
+  const userNameEl = document.getElementById('userName');
+  if (userNameEl) userNameEl.textContent = usuarioActual ? usuarioActual.email : 'Admin';
+  const userRoleEl = document.getElementById('userRole');
+  if (userRoleEl) userRoleEl.textContent = usuarioActual ? usuarioActual.rol.replace('ROLE_', '') : 'ADMIN';
 
-  document.getElementById('filtroFechaCitas').value = obtenerFechaHoyISO();
+  // Cargar concurrentemente la vista de agenda y citas de forma inmediata
   cargarBarberosParaFiltro();
-  cargarHorarioSemanal();
   cargarAgendaVisual();
   cargarCitasAdmin();
   cargarMetricasAdmin();
@@ -327,6 +328,9 @@ function cambiarTab(tabName, btn) {
   } else if (tabName === 'bloqueos') {
     document.getElementById('tabBloqueos').style.display = 'block';
     cargarBloqueosAdmin();
+  } else if (tabName === 'administradores') {
+    document.getElementById('tabAdministradores').style.display = 'block';
+    cargarUsuariosAdmin();
   } else if (tabName === 'configuracion') {
     document.getElementById('tabConfiguracion').style.display = 'block';
     cargarConfiguracionAdmin();
@@ -1289,8 +1293,10 @@ async function cargarBarberosParaFiltro() {
     if (res.ok) {
       barberosAdmin = await res.json();
       const select = document.getElementById('filtroBarberoCitas');
-      select.innerHTML = '<option value="TODOS">Todos los barberos</option>' + 
-        barberosAdmin.map(b => `<option value="${b.id}">${b.nombre}</option>`).join('');
+      if (select) {
+        select.innerHTML = '<option value="TODOS">Todos los barberos</option>' + 
+          barberosAdmin.map(b => `<option value="${b.id}">${b.nombre}</option>`).join('');
+      }
     }
   } catch (e) {
     console.error('Error al cargar barberos:', e);
@@ -2089,4 +2095,248 @@ function obtenerFechaHoyISO() {
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
+}
+
+// ==================== TAB: ADMINISTRADORES (GESTIÓN DE ACCESOS Y USUARIOS) ====================
+
+let usuariosAdminCargados = [];
+
+async function cargarUsuariosAdmin() {
+  const tbody = document.getElementById('tablaUsuariosAdminBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando administradores...</td></tr>';
+
+  try {
+    const res = await fetchAuth('/api/admin/usuarios');
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err || 'Error al obtener usuarios');
+    }
+    const usuarios = await res.json();
+    usuariosAdminCargados = usuarios || [];
+
+    if (usuariosAdminCargados.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">No hay administradores adicionales registrados.</td></tr>';
+      return;
+    }
+
+    const currentEmail = (usuarioActual ? usuarioActual.email : '').toLowerCase();
+
+    tbody.innerHTML = usuariosAdminCargados.map(u => {
+      const esPropio = u.email.toLowerCase() === currentEmail;
+      const estadoBadge = u.activo
+        ? '<span class="badge badge-CONFIRMADA" style="background: rgba(16, 185, 129, 0.15); color: #059669;"><i class="fa-solid fa-circle-check mr-1"></i> Activo</span>'
+        : '<span class="badge badge-CANCELADA" style="background: rgba(239, 68, 68, 0.15); color: #DC2626;"><i class="fa-solid fa-circle-xmark mr-1"></i> Inactivo</span>';
+      
+      const rolBadge = u.rol === 'ROLE_ADMIN'
+        ? '<span class="badge badge-PENDIENTE" style="background: rgba(185, 143, 74, 0.15); color: var(--gold); font-weight: 800;">ADMINISTRADOR</span>'
+        : `<span class="badge badge-outline">${u.rol.replace('ROLE_', '')}</span>`;
+
+      return `
+        <tr>
+          <td>
+            <strong>${u.email}</strong>
+            ${esPropio ? '<span style="font-size: 0.7rem; background: var(--gold); color: #000; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800; margin-left: 0.4rem;">Tú (En sesión)</span>' : ''}
+          </td>
+          <td>${u.nombre || u.email}</td>
+          <td>${rolBadge}</td>
+          <td>${estadoBadge}</td>
+          <td style="text-align: right; white-space: nowrap;">
+            <button onclick="abrirModalCambiarPasswordAdmin('${u.id}', '${u.email}')" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="Cambiar Contraseña">
+              <i class="fa-solid fa-key mr-1 text-gold"></i> Contraseña
+            </button>
+            ${!esPropio ? `
+              <button onclick="toggleEstadoUsuarioAdmin('${u.id}', '${u.email}', ${u.activo})" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; margin-right: 0.3rem;" title="${u.activo ? 'Desactivar' : 'Activar'}">
+                <i class="fa-solid fa-power-off ${u.activo ? 'text-warning' : 'text-success'}"></i>
+              </button>
+              <button onclick="eliminarUsuarioAdmin('${u.id}', '${u.email}')" class="btn btn-danger" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Eliminar Administrador">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            ` : ''}
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 2rem;">${e.message}</td></tr>`;
+  }
+}
+
+function abrirModalNuevoAdmin() {
+  document.getElementById('modalAdminTitulo').innerHTML = '<i class="fa-solid fa-user-shield text-gold mr-1"></i> Crear Nuevo Administrador';
+  const body = document.getElementById('modalAdminBody');
+
+  body.innerHTML = `
+    <form onsubmit="guardarNuevoAdmin(event)">
+      <div class="form-group">
+        <label>Usuario / Correo Electrónico *</label>
+        <input type="email" id="nuevoAdminEmail" class="form-control" placeholder="ej: nuevo.admin@keybarber.com" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Nombre Completo (Opcional)</label>
+        <input type="text" id="nuevoAdminNombre" class="form-control" placeholder="ej: Carlos Sánchez">
+      </div>
+      <div class="form-group">
+        <label>Contraseña de Acceso * (mínimo 6 caracteres)</label>
+        <div style="position: relative;">
+          <input type="password" id="nuevoAdminPassword" class="form-control" placeholder="••••••••" required minlength="6" style="padding-right: 2.5rem;">
+          <button type="button" onclick="togglePasswordVisibility('nuevoAdminPassword', this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted);">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Rol de Acceso</label>
+        <select id="nuevoAdminRol" class="form-control">
+          <option value="ROLE_ADMIN" selected>Administrador Completo (Acceso Total)</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" onclick="cerrarModalAdmin()" class="btn btn-outline">Cancelar</button>
+        <button type="submit" class="btn btn-gold" style="font-weight: 800; padding: 0.65rem 1.25rem;">
+          <i class="fa-solid fa-user-plus mr-1"></i> Guardar Administrador
+        </button>
+      </div>
+    </form>
+  `;
+  document.getElementById('modalAdmin').classList.add('active');
+}
+
+async function guardarNuevoAdmin(e) {
+  e.preventDefault();
+  const email = document.getElementById('nuevoAdminEmail')?.value.trim();
+  const nombre = document.getElementById('nuevoAdminNombre')?.value.trim();
+  const password = document.getElementById('nuevoAdminPassword')?.value;
+  const rol = document.getElementById('nuevoAdminRol')?.value || 'ROLE_ADMIN';
+
+  if (!email || !password) {
+    alert('Por favor completa el usuario y la contraseña.');
+    return;
+  }
+
+  try {
+    const res = await fetchAuth('/api/admin/usuarios', {
+      method: 'POST',
+      body: JSON.stringify({ email, nombre, password, rol })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al crear el administrador');
+    }
+
+    cerrarModalAdmin();
+    alert(`Administrador "${email}" creado exitosamente.`);
+    cargarUsuariosAdmin();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+function abrirModalCambiarPasswordAdmin(id, email) {
+  document.getElementById('modalAdminTitulo').innerHTML = `<i class="fa-solid fa-key text-gold mr-1"></i> Cambiar Contraseña: ${email}`;
+  const body = document.getElementById('modalAdminBody');
+
+  body.innerHTML = `
+    <form onsubmit="guardarPasswordAdmin(event, '${id}', '${email}')">
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Ingresa la nueva contraseña para el administrador <strong>${email}</strong>.
+      </p>
+      <div class="form-group">
+        <label>Nueva Contraseña * (mínimo 6 caracteres)</label>
+        <div style="position: relative;">
+          <input type="password" id="cambioAdminPassword" class="form-control" placeholder="••••••••" required minlength="6" style="padding-right: 2.5rem;">
+          <button type="button" onclick="togglePasswordVisibility('cambioAdminPassword', this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted);">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" onclick="cerrarModalAdmin()" class="btn btn-outline">Cancelar</button>
+        <button type="submit" class="btn btn-gold" style="font-weight: 800; padding: 0.65rem 1.25rem;">
+          <i class="fa-solid fa-check mr-1"></i> Actualizar Contraseña
+        </button>
+      </div>
+    </form>
+  `;
+  document.getElementById('modalAdmin').classList.add('active');
+}
+
+async function guardarPasswordAdmin(e, id, email) {
+  e.preventDefault();
+  const password = document.getElementById('cambioAdminPassword')?.value;
+  if (!password || password.length < 6) {
+    alert('La contraseña debe tener al menos 6 caracteres.');
+    return;
+  }
+
+  try {
+    const res = await fetchAuth(`/api/admin/usuarios/${id}/password`, {
+      method: 'PUT',
+      body: JSON.stringify({ password })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al actualizar contraseña');
+    }
+    cerrarModalAdmin();
+    alert(`Contraseña de "${email}" actualizada correctamente.`);
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+async function toggleEstadoUsuarioAdmin(id, email, estadoActual) {
+  const accion = estadoActual ? 'desactivar' : 'activar';
+  if (!confirm(`¿Deseas ${accion} la cuenta del administrador "${email}"?`)) return;
+
+  try {
+    const res = await fetchAuth(`/api/admin/usuarios/${id}/estado`, { method: 'PUT' });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al cambiar estado');
+    }
+    cargarUsuariosAdmin();
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+async function eliminarUsuarioAdmin(id, email) {
+  if (!confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente la cuenta de administrador "${email}"?`)) return;
+
+  try {
+    const res = await fetchAuth(`/api/admin/usuarios/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Error al eliminar');
+    }
+    alert(`Usuario "${email}" eliminado.`);
+    cargarUsuariosAdmin();
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+function togglePasswordVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) {
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    }
+  } else {
+    input.type = 'password';
+    if (icon) {
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
 }
