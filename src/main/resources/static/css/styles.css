@@ -1172,6 +1172,16 @@ footer {
   box-shadow: 0 6px 18px var(--gold-glow);
 }
 
+/* ============================================================
+   BARRA FLOTANTE MÓVIL (ESTRICTAMENTE OCULTA EN PC / ESCRITORIO)
+   ============================================================ */
+.mobile-sticky-booking {
+  display: none !important;
+}
+body {
+  padding-bottom: 0 !important;
+}
+
 @media (max-width: 768px) {
   /* Cabecera Móvil Limpia y Esbelta */
   header {
@@ -1367,15 +1377,15 @@ footer {
     }
   }
 
-  /* Barra Flotante Fija de Reserva Móvil (Diseño Claro Prémium) */
+  /* Barra Flotante Fija de Reserva ÚNICAMENTE para Móviles (<= 768px) */
   body {
-    padding-bottom: 74px; /* Espacio para que la barra no cubra el footer */
+    padding-bottom: 74px !important;
   }
   body.modal-open .mobile-sticky-booking {
     display: none !important;
   }
   .mobile-sticky-booking {
-    display: block;
+    display: block !important;
     position: fixed;
     bottom: 0;
     left: 0;
