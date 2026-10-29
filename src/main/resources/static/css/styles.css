@@ -1,5 +1,6 @@
 /* ============================================================
-   KEY BARBER - Estilos Prémium Luminous Light & Gold (Inspirado en ISIVI)
+   KEY BARBER - Estilos Prémium Luminous Light & Imperial Gold
+   (Armonizado con el Logo: Obsidiana, Plata Cromo & Oro Cálido)
    ============================================================ */
 :root {
   /* Fondo general claro, nítido y luminoso (Plata perlada / Off-white) */
@@ -8,22 +9,30 @@
   --bg-card: #F1F5F9;          /* Fondos sutiles de inputs y bloques */
   --bg-card-hover: #E2E8F0;
   
-  /* Paleta adaptada al Logo: Negro Carbón Obsidiana & Plata Metálica */
-  --gold: #111317;             /* Negro carbón primario del logo */
-  --gold-hover: #232732;       /* Grafito oscuro hover */
-  --gold-light: #F1F5F9;       /* Fondo claro complementario */
-  --gold-glow: rgba(17, 19, 23, 0.2);
-  --gold-badge: rgba(17, 19, 23, 0.08);
+  /* Paleta Élite: Oro Imperial Cálido & Brillante (Acento Prémium) */
+  --gold: #D97706;             /* Oro ámbar vibrante */
+  --gold-rich: #B45309;        /* Oro bronce intenso para textos y precios */
+  --gold-hover: #92400E;       /* Oro oscuro en hover */
+  --gold-light: #FEF3C7;       /* Fondo ámbar suave para badges */
+  --gold-glow: rgba(217, 119, 6, 0.32);
+  --gold-badge: rgba(217, 119, 6, 0.12);
+  --gold-gradient: linear-gradient(135deg, #B45309 0%, #D97706 45%, #F59E0B 100%);
+  --gold-gradient-hover: linear-gradient(135deg, #92400E 0%, #B45309 50%, #D97706 100%);
 
-  /* Acentos de Plata Cromada del logo */
+  /* Obsidiana profunda del fondo del logo */
+  --obsidian: #0F172A;
+  --obsidian-dark: #08090C;
+  --obsidian-card: #181B22;
+
+  /* Plata y Cromo de las tijeras y navaja del logo */
   --silver-accent: #94A3B8;
   --silver-border: #CBD5E1;
   --silver-bright: #F8FAFC;
   
   --text-main: #0F172A;        /* Tipografía carbón profunda de alto contraste */
-  --text-muted: #64748B;       /* Texto secundario pizarra */
+  --text-muted: #64748B;       /* Texto secundario pizarra legible */
   --border-color: #E2E8F0;     /* Bordes sutiles modernos en plata clara */
-  --border-gold: rgba(17, 19, 23, 0.25);
+  --border-gold: rgba(217, 119, 6, 0.35);
   
   --danger: #DC2626;
   --danger-bg: #FEF2F2;
@@ -38,11 +47,11 @@
   --radius-lg: 24px;
   --radius-full: 9999px;
   
-  --shadow-sm: 0 2px 8px rgba(35, 28, 22, 0.04);
-  --shadow-md: 0 6px 20px rgba(35, 28, 22, 0.08);
-  --shadow-lg: 0 16px 36px rgba(35, 28, 22, 0.12);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.12);
   
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-title: 'Cinzel', 'Playfair Display', Georgia, serif;
 }
@@ -267,7 +276,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.92rem;
@@ -279,17 +288,18 @@ header {
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, #111317 0%, #262A34 100%);
+  background: var(--gold-gradient);
   color: #FFFFFF;
-  border: 1px solid rgba(203, 213, 225, 0.35);
-  box-shadow: 0 4px 14px rgba(17, 19, 23, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px var(--gold-glow);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-gold:hover {
-  background: linear-gradient(135deg, #262A34 0%, #111317 100%);
-  border-color: #CBD5E1;
+  background: var(--gold-gradient-hover);
+  border-color: rgba(255, 255, 255, 0.45);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(17, 19, 23, 0.35);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.42);
 }
 
 .btn-outline {
@@ -300,9 +310,24 @@ header {
 }
 
 .btn-outline:hover {
-  border-color: #111317;
-  color: #111317;
-  background: #F1F5F9;
+  border-color: var(--gold);
+  color: var(--gold-rich);
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-dark {
+  background: var(--obsidian);
+  color: #FFFFFF;
+  border: 1px solid rgba(203, 213, 225, 0.2);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+}
+
+.btn-dark:hover {
+  background: #1E293B;
+  border-color: var(--gold);
+  color: #FFFFFF;
+  transform: translateY(-2px);
 }
 
 .btn-danger { background: var(--danger); color: #fff; }
@@ -313,9 +338,9 @@ header {
 /* Hero Section */
 .hero-section {
   position: relative;
-  padding: 5rem 1.5rem 4.5rem 1.5rem;
+  padding: 5.5rem 1.5rem 4.5rem 1.5rem;
   text-align: center;
-  background: radial-gradient(circle at 50% 20%, rgba(148, 163, 184, 0.16) 0%, transparent 68%);
+  background: radial-gradient(circle at 50% 12%, rgba(217, 119, 6, 0.09) 0%, rgba(248, 250, 252, 0.85) 45%, var(--bg-primary) 100%);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -323,21 +348,21 @@ header {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.45rem 1.15rem;
+  padding: 0.45rem 1.3rem;
   background: #FFFFFF;
-  border: 1px solid #CBD5E1;
-  color: #0F172A;
+  border: 1.5px solid rgba(217, 119, 6, 0.35);
+  color: var(--gold-rich);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 1.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+  letter-spacing: 1.2px;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.12);
 }
 
 .hero-title {
-  font-size: 3.2rem;
+  font-size: 3.3rem;
   font-weight: 900;
   line-height: 1.15;
   margin-bottom: 1.25rem;
@@ -346,25 +371,71 @@ header {
 }
 
 .hero-title span {
-  background: linear-gradient(135deg, #0F172A 0%, #334155 50%, #0F172A 100%);
+  background: linear-gradient(135deg, #92400E 0%, #D97706 35%, #F59E0B 70%, #B45309 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  border-bottom: 3px solid #94A3B8;
+  border-bottom: 3px solid #D97706;
   padding-bottom: 2px;
 }
 
 .hero-subtitle {
-  max-width: 680px;
+  max-width: 700px;
   margin: 0 auto 2.5rem auto;
   color: var(--text-muted);
   font-size: 1.15rem;
+  line-height: 1.7;
 }
 
 .hero-actions {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
+}
+
+/* Cinta de Confianza y Métricas VIP */
+.hero-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 980px;
+  margin: 3.5rem auto 0 auto;
+  padding: 1.1rem 2rem;
+  background: #FFFFFF;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.stat-pill strong {
+  color: var(--gold-rich);
+  font-weight: 800;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .hero-stats-bar {
+    border-radius: var(--radius-md);
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .stat-divider { display: none; }
 }
 
 /* Sections */
@@ -376,19 +447,108 @@ header {
 
 .section-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 3.25rem;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gold-rich);
+  background: var(--gold-light);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.75rem;
 }
 
 .section-header h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
+  font-size: 2.3rem;
+  font-weight: 900;
   color: var(--text-main);
   margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
 }
 
 .section-header p {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* Features Section (Por qué elegir Key Barber) */
+.features-section {
+  padding: 5rem 1.5rem;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  background: #FFFFFF;
+  box-shadow: 0 16px 36px rgba(217, 119, 6, 0.12);
+}
+
+.feature-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 1.25rem auto;
+  background: var(--gold-gradient);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 1.4rem;
+  box-shadow: 0 6px 18px var(--gold-glow);
+}
+
+.feature-card h3 {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.65rem;
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Tarjeta Consulta de Cita */
+.consultar-card {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(217, 119, 6, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  max-width: 780px;
+  margin: 0 auto;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06), 0 0 24px rgba(217, 119, 6, 0.08);
+  position: relative;
 }
 
 /* Categories Filter */
@@ -401,7 +561,7 @@ header {
 }
 
 .tab-btn {
-  padding: 0.55rem 1.3rem;
+  padding: 0.6rem 1.4rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-color);
   background: #FFFFFF;
@@ -414,10 +574,11 @@ header {
 }
 
 .tab-btn.active, .tab-btn:hover {
-  background: var(--gold);
+  background: var(--gold-gradient);
   color: #FFFFFF;
-  border-color: var(--gold);
-  box-shadow: 0 4px 14px var(--gold-glow);
+  border-color: transparent;
+  box-shadow: 0 4px 16px var(--gold-glow);
+  transform: translateY(-2px);
 }
 
 /* Service Cards Grid */
@@ -435,19 +596,20 @@ header {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  position: relative;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
   border-color: var(--gold);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 18px 36px rgba(217, 119, 6, 0.14), 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .service-img-wrap {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 210px;
   overflow: hidden;
   background: var(--bg-card);
 }
@@ -456,22 +618,22 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-card:hover .service-img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .service-duration-badge {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
-  border: 1px solid var(--border-gold);
-  color: var(--gold);
-  padding: 0.25rem 0.65rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  padding: 0.3rem 0.75rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 800;
@@ -479,7 +641,7 @@ header {
 }
 
 .service-body {
-  padding: 1.5rem;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -489,22 +651,27 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
 }
 
 .service-category {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-rich);
+  background: var(--gold-light);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--radius-full);
   font-weight: 800;
   letter-spacing: 0.8px;
 }
 
 .service-title {
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1.3rem;
+  font-weight: 900;
   margin-bottom: 0.5rem;
   color: var(--text-main);
+  letter-spacing: -0.3px;
 }
 
 .service-desc {
@@ -512,7 +679,7 @@ header {
   color: var(--text-muted);
   margin-bottom: 1.5rem;
   flex-grow: 1;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .service-footer {
@@ -520,13 +687,15 @@ header {
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border-color);
-  padding-top: 1rem;
+  padding-top: 1.15rem;
+  margin-top: auto;
 }
 
 .service-price {
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  color: var(--gold);
+  color: var(--gold-rich);
+  letter-spacing: -0.5px;
 }
 
 /* Barber Cards Grid */
@@ -534,45 +703,62 @@ header {
   background: #FFFFFF;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  padding: 1.75rem;
+  padding: 2.25rem 1.75rem;
   text-align: center;
   transition: var(--transition);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  position: relative;
 }
 
 .barber-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   border-color: var(--gold);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 40px rgba(217, 119, 6, 0.15), 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .barber-avatar {
-  width: 110px;
-  height: 110px;
+  width: 118px;
+  height: 118px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 1.25rem auto;
-  border: 3px solid var(--gold);
-  box-shadow: 0 4px 14px var(--gold-glow);
+  margin: 0 auto 1.35rem auto;
+  border: 3px solid #FFFFFF;
+  outline: 3px solid var(--gold);
+  box-shadow: 0 6px 20px var(--gold-glow);
+  transition: transform 0.4s ease, outline-color 0.4s ease;
+}
+
+.barber-card:hover .barber-avatar {
+  transform: scale(1.06);
+  outline-color: var(--gold-rich);
 }
 
 .barber-name {
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1.3rem;
+  font-weight: 900;
   color: var(--text-main);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.3px;
 }
 
 .barber-spec {
-  color: var(--gold);
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
+  display: inline-block;
+  color: var(--gold-rich);
+  background: var(--gold-light);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  padding: 0.22rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.85rem;
 }
 
 .barber-bio {
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
 }
 
 /* ============================================================
@@ -931,14 +1117,59 @@ header {
   background: rgba(185, 143, 74, 0.04);
 }
 
-/* Footer */
+/* Footer Prémium Élite (Inspirado en el fondo obsidiana del logo) */
 footer {
-  background: #FFFFFF;
-  border-top: 1px solid var(--border-color);
-  padding: 3rem 1.5rem;
+  background: var(--obsidian-dark);
+  border-top: 2px solid rgba(217, 119, 6, 0.35);
+  padding: 4.5rem 1.5rem 3rem 1.5rem;
   text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: #94A3B8;
+  font-size: 0.92rem;
+  position: relative;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  color: #FFFFFF;
+  margin-bottom: 1.25rem;
+}
+
+.footer-brand i {
+  color: var(--gold);
+}
+
+.footer-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.footer-social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #181C26;
+  border: 1px solid rgba(203, 213, 225, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-social-btn:hover {
+  background: var(--gold-gradient);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px var(--gold-glow);
 }
 
 @media (max-width: 768px) {

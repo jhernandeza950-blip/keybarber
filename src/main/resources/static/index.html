@@ -42,42 +42,62 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-badge">
-      <i class="fa-solid fa-crown text-xs"></i> Barbería &amp; Cuidado Masculino Prémium
+      <i class="fa-solid fa-crown text-gold"></i> Barbería de Élite &amp; Cuidado Masculino
     </div>
-    <h1 class="hero-title">Domina tu estilo con <span>Key Barber</span></h1>
-    <p class="hero-subtitle">Tradición de barbería clásica y técnicas modernas de precisión. Agenda tu cita en segundos con los mejores maestros de la navaja.</p>
+    <h1 class="hero-title">Domina tu presencia con <span>Key Barber</span></h1>
+    <p class="hero-subtitle">Cortes de alta precisión, afeitado tradicional a navaja y el ritual de cuidado que mereces. Reserva tu turno en segundos en tiempo real.</p>
     <div class="hero-actions">
-      <button onclick="abrirModalReserva()" class="btn btn-gold" style="padding: 0.9rem 2.2rem; font-size: 1.05rem;">
-        <i class="fa-solid fa-scissors"></i> Reservar Ahora
+      <button onclick="abrirModalReserva()" class="btn btn-gold" style="padding: 0.95rem 2.25rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-calendar-check mr-1"></i> Agendar Cita en Vivo
       </button>
-      <a href="#servicios" class="btn btn-outline" style="padding: 0.9rem 1.8rem; font-size: 1.05rem;">
-        <i class="fa-solid fa-eye"></i> Ver Catálogo
+      <a href="#servicios" class="btn btn-outline" style="padding: 0.95rem 1.85rem; font-size: 1.05rem;">
+        <i class="fa-solid fa-scissors mr-1"></i> Ver Catálogo
       </a>
+    </div>
+
+    <!-- Cinta de Métricas de Confianza VIP -->
+    <div class="hero-stats-bar">
+      <div class="stat-pill"><i class="fa-solid fa-star text-gold"></i> <strong>4.9 / 5</strong> Calificación</div>
+      <div class="stat-divider"></div>
+      <div class="stat-pill"><i class="fa-solid fa-users text-gold"></i> <strong>+3,500</strong> Clientes Satisfechos</div>
+      <div class="stat-divider"></div>
+      <div class="stat-pill"><i class="fa-solid fa-clock text-gold"></i> <strong>100%</strong> Puntualidad Garantizada</div>
+      <div class="stat-divider"></div>
+      <div class="stat-pill"><i class="fa-solid fa-mug-hot text-gold"></i> <strong>Bebida de Cortesía</strong> Zona Lounge VIP</div>
     </div>
   </section>
 
   <!-- Consulta de Cita Rápida -->
-  <section id="consultar" style="background: var(--bg-secondary); padding: 2.75rem 1.5rem; border-bottom: 1px solid var(--border-color);">
-    <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-      <h3 style="color: var(--gold); margin-bottom: 0.5rem; font-size: 1.4rem; font-weight: 800;">
-        <i class="fa-solid fa-magnifying-glass mr-1"></i> ¿Ya tienes una cita agendada?
-      </h3>
-      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.35rem;">Ingresa tu código de cita (ej: <strong>KB-1024</strong>) o tu número de WhatsApp para consultar tu turno en vivo.</p>
-      <div style="display: flex; gap: 0.6rem; max-width: 520px; margin: 0 auto;">
-        <input type="text" id="inputConsulta" class="form-control" placeholder="Código KB-XXXX o Teléfono..." style="text-align: center; font-weight: 700;">
-        <button onclick="consultarCita()" class="btn btn-gold" style="padding: 0.75rem 1.5rem;">
-          <i class="fa-solid fa-search"></i> Buscar
+  <section id="consultar" style="background: var(--bg-primary); padding: 3.5rem 1.5rem;">
+    <div class="consultar-card">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <span class="section-eyebrow">
+          <i class="fa-solid fa-magnifying-glass"></i> ESTADO EN TIEMPO REAL
+        </span>
+        <h3 style="color: var(--text-main); font-size: 1.6rem; font-weight: 900; margin-top: 0.35rem;">
+          ¿Ya tienes una cita agendada?
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.35rem;">
+          Ingresa tu código único (ej: <strong style="color: var(--gold-rich);">KB-1024</strong>) o tu número de celular para verificar tu turno al instante.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; max-width: 540px; margin: 0 auto; flex-wrap: wrap;">
+        <input type="text" id="inputConsulta" class="form-control" placeholder="Código KB-XXXX o Teléfono..." style="flex: 1; min-width: 220px; text-align: center; font-weight: 700; font-size: 1rem; border-color: rgba(217, 119, 6, 0.35);">
+        <button onclick="consultarCita()" class="btn btn-gold" style="padding: 0.85rem 1.75rem; font-size: 0.95rem;">
+          <i class="fa-solid fa-search mr-1"></i> Consultar Turno
         </button>
       </div>
-      <div id="resultadoConsulta" style="margin-top: 1.25rem; display: none;"></div>
+      <div id="resultadoConsulta" style="margin-top: 1.5rem; display: none;"></div>
     </div>
   </section>
 
   <!-- Servicios -->
   <section id="servicios" class="container">
     <div class="section-header">
+      <span class="section-eyebrow"><i class="fa-solid fa-scissors"></i> SERVICIOS DE ALTO NIVEL</span>
       <h2>Catálogo de Servicios</h2>
-      <p>Servicios diseñados para elevar tu imagen al máximo nivel.</p>
+      <p>Servicios diseñados para elevar tu imagen y estilo al máximo nivel de distinción.</p>
     </div>
 
     <!-- Pestañas de categorías -->
@@ -95,12 +115,47 @@
     </div>
   </section>
 
+  <!-- Sección: La Experiencia Key Barber (Valor Diferencial) -->
+  <section class="features-section">
+    <div class="container" style="padding-top: 0; padding-bottom: 0;">
+      <div class="section-header">
+        <span class="section-eyebrow"><i class="fa-solid fa-gem"></i> VALOR DIFERENCIAL</span>
+        <h2>La Experiencia Key Barber</h2>
+        <p>Más que un corte de cabello, una pausa dedicada a tu imagen, comodidad y bienestar.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-scissors"></i></div>
+          <h3>Técnicas de Precisión</h3>
+          <p>Fades milimétricos, desvanecidos limpios y perfilado de barba con navaja clásica y toalla caliente.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <h3>Agenda en Vivo 24/7</h3>
+          <p>Reserva en tiempo real desde tu móvil o computadora. Tu barbero y tu silla te esperan a la hora exacta.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-pump-soap"></i></div>
+          <h3>Cosmética Prémium</h3>
+          <p>Tratamientos capilares, aceites nutritivos y ceras importadas sin químicos que dañen tu piel.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+          <h3>Lounge &amp; Confort VIP</h3>
+          <p>Disfruta de café de especialidad, bebidas de cortesía y un ambiente exclusivo en cada visita.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Barberos -->
-  <section id="barberos" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+  <section id="barberos" style="background: var(--bg-primary); border-bottom: 1px solid var(--border-color);">
     <div class="container">
       <div class="section-header">
+        <span class="section-eyebrow"><i class="fa-solid fa-award"></i> TALENTO DE PRIMER NIVEL</span>
         <h2>Maestros de la Navaja</h2>
-        <p>Especialistas dedicados a cuidar cada detalle de tu corte y perfilado.</p>
+        <p>Especialistas dedicados a cuidar cada detalle de tu corte y perfilado según tu fisionomía.</p>
       </div>
 
       <div class="grid-cards" id="barberosGrid">
@@ -109,14 +164,29 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Footer Prémium -->
   <footer>
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.9rem; align-items: center;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--gold); font-size: 1.25rem; font-weight: 800; letter-spacing: 2px;">
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+      <div class="footer-brand">
         <i class="fa-solid fa-scissors"></i> KEY BARBER
       </div>
-      <p id="footerInfo">Calle 72 # 11-45, Zona Rosa | Tel: +57 310 987 6543</p>
-      <p style="font-size: 0.8rem; color: #6b7280;">&copy; 2026 Key Barber. Todos los derechos reservados. Desarrollado con Spring Boot &amp; MongoDB.</p>
+      <p id="footerInfo" style="color: #CBD5E1; font-weight: 500; margin-bottom: 0.5rem;">
+        Calle 72 # 11-45, Zona Rosa | Tel: +57 310 987 6543
+      </p>
+      <div class="footer-social-links">
+        <a href="https://instagram.com" target="_blank" class="footer-social-btn" title="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/573109876543" target="_blank" class="footer-social-btn" title="WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="https://tiktok.com" target="_blank" class="footer-social-btn" title="TikTok">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+      </div>
+      <p style="font-size: 0.82rem; color: #64748B; margin-top: 1rem;">
+        &copy; 2026 Key Barber. Todos los derechos reservados. Precisión, Estilo y Maestría Masculina.
+      </p>
     </div>
   </footer>
 

@@ -2158,7 +2158,7 @@ async function cargarUsuariosAdmin() {
         <tr>
           <td>
             <strong>${u.email}</strong>
-            ${esPropio ? '<span style="font-size: 0.7rem; background: var(--gold); color: #000; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800; margin-left: 0.4rem;">Tú (En sesión)</span>' : ''}
+            ${esPropio ? '<span class="badge-tu-sesion" style="font-size: 0.72rem; background: #0F172A; color: #FFFFFF; border: 1px solid #334155; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 800; margin-left: 0.5rem; letter-spacing: 0.3px; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"><i class="fa-solid fa-circle-user" style="color: #F59E0B; font-size: 0.8rem;"></i> Tú (En sesión)</span>' : ''}
           </td>
           <td>${u.nombre || u.email}</td>
           <td>${rolBadge}</td>
