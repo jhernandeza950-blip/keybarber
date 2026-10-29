@@ -204,11 +204,13 @@ function abrirModalReserva() {
     duracionTotal: 0,
     precioTotal: 0
   };
+  document.body.classList.add('modal-open');
   document.getElementById('modalReserva').classList.add('active');
   mostrarPasoServicios();
 }
 
 function cerrarModalReserva() {
+  document.body.classList.remove('modal-open');
   document.getElementById('modalReserva').classList.remove('active');
 }
 
