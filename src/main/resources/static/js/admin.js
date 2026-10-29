@@ -2053,6 +2053,8 @@ async function cargarConfiguracionAdmin() {
     document.getElementById('cfgDireccion').value = c.direccion || '';
     document.getElementById('cfgTelefono').value = c.telefono || '';
     document.getElementById('cfgWhatsapp').value = c.whatsapp || '';
+    document.getElementById('cfgInstagram').value = c.instagram || '';
+    document.getElementById('cfgTiktok').value = c.tiktok || '';
     document.getElementById('cfgIntervalo').value = c.intervaloMinutos || 30;
     document.getElementById('cfgAnticipacion').value = c.anticipacionDias || 15;
   } catch (e) {
@@ -2068,6 +2070,8 @@ async function guardarConfiguracion(e) {
     direccion: document.getElementById('cfgDireccion').value.trim(),
     telefono: document.getElementById('cfgTelefono').value.trim(),
     whatsapp: document.getElementById('cfgWhatsapp').value.trim(),
+    instagram: document.getElementById('cfgInstagram')?.value.trim() || '',
+    tiktok: document.getElementById('cfgTiktok')?.value.trim() || '',
     intervaloMinutos: parseInt(document.getElementById('cfgIntervalo').value),
     anticipacionDias: parseInt(document.getElementById('cfgAnticipacion').value)
   };

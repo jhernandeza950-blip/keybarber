@@ -641,25 +641,47 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div class="form-group">
                 <label>Teléfono de Contacto</label>
-                <input type="text" id="cfgTelefono" class="form-control">
+                <input type="text" id="cfgTelefono" class="form-control" placeholder="+57 310 987 6543">
               </div>
-              <div class="form-group">
-                <label>WhatsApp Oficial (ej: 573109876543)</label>
-                <input type="text" id="cfgWhatsapp" class="form-control">
-              </div>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
               <div class="form-group">
                 <label>Intervalo de turnos (minutos)</label>
                 <input type="number" id="cfgIntervalo" class="form-control" value="30">
               </div>
+            </div>
+
+            <div class="form-group">
+              <label>Anticipación máxima para agendar (días hacia adelante)</label>
+              <input type="number" id="cfgAnticipacion" class="form-control" value="15">
+            </div>
+
+            <!-- Redes Sociales y Canales de Contacto Configurables -->
+            <div style="margin-top: 1.75rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.35rem;">
+                <i class="fa-solid fa-share-nodes text-gold mr-1"></i> Redes Sociales y Enlaces Oficiales
+              </h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                Configura los botones de WhatsApp, Instagram y TikTok que se muestran a tus clientes en el pie de página del sitio público.
+              </p>
+
               <div class="form-group">
-                <label>Anticipación máxima (días)</label>
-                <input type="number" id="cfgAnticipacion" class="form-control" value="15">
+                <label><i class="fa-brands fa-whatsapp text-success mr-1"></i> WhatsApp de Atención (Número con indicativo país, ej: 573109876543)</label>
+                <input type="text" id="cfgWhatsapp" class="form-control" placeholder="573109876543">
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                  <label><i class="fa-brands fa-instagram text-gold mr-1"></i> Instagram (Usuario @ o enlace completo)</label>
+                  <input type="text" id="cfgInstagram" class="form-control" placeholder="@keybarber_col o https://instagram.com/...">
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-brands fa-tiktok mr-1"></i> TikTok (Usuario @ o enlace completo)</label>
+                  <input type="text" id="cfgTiktok" class="form-control" placeholder="@keybarber_col o https://tiktok.com/@...">
+                </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-gold" style="margin-top: 1rem; padding: 0.8rem 1.8rem;">
-              <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Ajustes
+
+            <button type="submit" class="btn btn-gold" style="margin-top: 1.25rem; padding: 0.85rem 2rem; font-weight: 800;">
+              <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Configuración
             </button>
           </form>
         </div>

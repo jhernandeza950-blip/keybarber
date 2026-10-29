@@ -63,6 +63,44 @@ async function cargarConfiguracion() {
       if (configuracionData.direccion) {
         document.getElementById('footerInfo').textContent = `${configuracionData.direccion} | Tel: ${configuracionData.telefono || ''}`;
       }
+
+      // Enlaces dinámicos a redes sociales configurados desde el Admin
+      const btnWhatsapp = document.getElementById('footerLinkWhatsapp');
+      const btnInstagram = document.getElementById('footerLinkInstagram');
+      const btnTiktok = document.getElementById('footerLinkTiktok');
+
+      if (btnWhatsapp) {
+        const rawWp = (configuracionData.whatsapp || '').trim();
+        const numWp = rawWp.replace(/[^0-9]/g, '');
+        if (numWp) {
+          btnWhatsapp.href = `https://wa.me/${numWp}`;
+          btnWhatsapp.style.display = 'inline-flex';
+        } else {
+          btnWhatsapp.style.display = 'none';
+        }
+      }
+
+      if (btnInstagram) {
+        const rawIg = (configuracionData.instagram || '').trim();
+        if (rawIg) {
+          const urlIg = rawIg.startsWith('http') ? rawIg : `https://instagram.com/${rawIg.replace('@', '')}`;
+          btnInstagram.href = urlIg;
+          btnInstagram.style.display = 'inline-flex';
+        } else {
+          btnInstagram.style.display = 'none';
+        }
+      }
+
+      if (btnTiktok) {
+        const rawTt = (configuracionData.tiktok || '').trim();
+        if (rawTt) {
+          const urlTt = rawTt.startsWith('http') ? rawTt : `https://tiktok.com/@${rawTt.replace('@', '')}`;
+          btnTiktok.href = urlTt;
+          btnTiktok.style.display = 'inline-flex';
+        } else {
+          btnTiktok.style.display = 'none';
+        }
+      }
     }
     const resAgenda = await fetch('/api/agenda');
     if (resAgenda.ok) {

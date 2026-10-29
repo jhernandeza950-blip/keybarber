@@ -12,8 +12,9 @@ public class ConfiguracionBarberia {
     private String slogan = "Estilo, Precisión y Tradición Masculina";
     private String direccion = "Calle Principal #10-20, Zona Rosa";
     private String telefono = "+57 300 123 4567";
-    private String whatsapp = "573001234567";
-    private String instagram = "@keybarber.oficial";
+    private String whatsapp = "573109876543";
+    private String instagram = "@keybarber_col";
+    private String tiktok = "@keybarber_col";
     
     // Reglas de agenda
     private String horaAperturaSemana = "09:00";
@@ -48,6 +49,9 @@ public class ConfiguracionBarberia {
 
     public String getInstagram() { return instagram; }
     public void setInstagram(String instagram) { this.instagram = instagram; }
+
+    public String getTiktok() { return tiktok; }
+    public void setTiktok(String tiktok) { this.tiktok = tiktok; }
 
     public String getHoraAperturaSemana() { return horaAperturaSemana; }
     public void setHoraAperturaSemana(String horaAperturaSemana) { this.horaAperturaSemana = horaAperturaSemana; }

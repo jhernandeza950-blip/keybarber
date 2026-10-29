@@ -60,6 +60,7 @@ public class DataInitializer implements CommandLineRunner {
             config.setTelefono("+57 310 987 6543");
             config.setWhatsapp("573109876543");
             config.setInstagram("@keybarber_col");
+            config.setTiktok("@keybarber_col");
             config.setHoraAperturaSemana("09:00");
             config.setHoraCierreSemana("20:00");
             config.setHoraAperturaSabado("09:00");
